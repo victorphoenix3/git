@@ -37,7 +37,8 @@ void restore_term(void)
 int save_term(enum save_term_flags flags)
 {
 	if (term_fd < 0)
-		term_fd = open("/dev/tty", O_RDWR);
+		term_fd = (flags & SAVE_TERM_STDIN) ? 0
+						    : open("/dev/tty", O_RDWR);
 	if (term_fd < 0)
 		return -1;
 	if (tcgetattr(term_fd, &old_term) < 0)
@@ -362,7 +363,7 @@ int read_key_without_echo(struct strbuf *buf)
 	static int warning_displayed;
 	int ch;
 
-	if (warning_displayed || enable_non_canonical(0) < 0) {
+	if (warning_displayed || enable_non_canonical(SAVE_TERM_STDIN) < 0) {
 		if (!warning_displayed) {
 			warning("reading single keystrokes not supported on "
 				"this platform; reading line instead");
