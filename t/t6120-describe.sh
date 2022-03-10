@@ -503,9 +503,11 @@ test_expect_success 'non-monotonic commit dates setup' '
 '
 
 test_expect_success 'name-rev with commitGraph handles non-monotonic timestamps' '
-	test_config -C non-monotonic core.commitGraph false &&
+	test_config -C non-monotonic core.commitGraph true &&
 	(
 		cd non-monotonic &&
+
+		git commit-graph write --reachable &&
 
 		echo "main~3 tags/D~2" >expect &&
 		git name-rev --tags main~3 >actual &&
