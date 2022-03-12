@@ -105,11 +105,11 @@ test_expect_success '"git submodule sync" should update submodule URLs' '
 		git pull --no-recurse-submodules &&
 		git submodule sync
 	) &&
-	test -d "$(
+	test_path_is_dir "$(
 		cd super-clone/submodule &&
 		git config remote.origin.url
 	)" &&
-	test ! -d "$(
+	! test_path_is_dir "$(
 		cd super-clone/submodule/sub-submodule &&
 		git config remote.origin.url
 	)" &&
@@ -120,7 +120,7 @@ test_expect_success '"git submodule sync" should update submodule URLs' '
 	) &&
 	(
 		cd super-clone &&
-		test -d "$(git config submodule.submodule.url)"
+		test_path_is_dir "$(git config submodule.submodule.url)"
 	)
 '
 
@@ -133,11 +133,11 @@ test_expect_success '"git submodule sync --recursive" should update all submodul
 		) &&
 		git submodule sync --recursive
 	) &&
-	test -d "$(
+	test_path_is_dir "$(
 		cd super-clone/submodule &&
 		git config remote.origin.url
 	)" &&
-	test -d "$(
+	test_path_is_dir "$(
 		cd super-clone/submodule/sub-submodule &&
 		git config remote.origin.url
 	)" &&
@@ -161,11 +161,11 @@ test_expect_success '"git submodule sync" should update submodule URLs - subdire
 		git submodule sync >../../output
 	) &&
 	test_i18ngrep "\\.\\./submodule" output &&
-	test -d "$(
+	test_path_is_dir "$(
 		cd super-clone/submodule &&
 		git config remote.origin.url
 	)" &&
-	test ! -d "$(
+	! test_path_is_dir "$(
 		cd super-clone/submodule/sub-submodule &&
 		git config remote.origin.url
 	)" &&
@@ -176,7 +176,7 @@ test_expect_success '"git submodule sync" should update submodule URLs - subdire
 	) &&
 	(
 		cd super-clone &&
-		test -d "$(git config submodule.submodule.url)"
+		test_path_is_dir "$(git config submodule.submodule.url)"
 	)
 '
 
@@ -192,11 +192,11 @@ test_expect_success '"git submodule sync --recursive" should update all submodul
 		git submodule sync --recursive >../../output
 	) &&
 	test_i18ngrep "\\.\\./submodule/sub-submodule" output &&
-	test -d "$(
+	test_path_is_dir "$(
 		cd super-clone/submodule &&
 		git config remote.origin.url
 	)" &&
-	test -d "$(
+	test_path_is_dir "$(
 		cd super-clone/submodule/sub-submodule &&
 		git config remote.origin.url
 	)" &&
@@ -212,7 +212,7 @@ test_expect_success '"git submodule sync" should update known submodule URLs' '
 		cd empty-clone &&
 		git pull &&
 		git submodule sync &&
-		test -d "$(git config submodule.submodule.url)"
+		test_path_is_dir "$(git config submodule.submodule.url)"
 	)
 '
 
